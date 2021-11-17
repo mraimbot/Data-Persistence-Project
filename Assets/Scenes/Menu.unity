@@ -2090,7 +2090,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -2128,14 +2128,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputPlayerName: {fileID: 2086001105}
-  textTop1: {fileID: 1885459187}
-  textTop2: {fileID: 1897598821}
-  textTop3: {fileID: 1875449795}
-  textTop4: {fileID: 1932219265}
-  textTop5: {fileID: 507062386}
-  textTop6: {fileID: 898464104}
-  textTop7: {fileID: 1148065786}
-  textTop8: {fileID: 1924898745}
+  textHighscores:
+  - {fileID: 1885459187}
+  - {fileID: 1897598821}
+  - {fileID: 1875449795}
+  - {fileID: 1932219265}
+  - {fileID: 507062386}
+  - {fileID: 898464104}
+  - {fileID: 1148065786}
+  - {fileID: 1924898745}
 --- !u!1 &1826842868
 GameObject:
   m_ObjectHideFlags: 0
@@ -3119,6 +3120,9 @@ MonoBehaviour:
   - Name: 
     Score: 0
   - Name: 
+    Score: 0
+  Player:
+    Name: 
     Score: 0
 --- !u!4 &2090274549
 Transform:

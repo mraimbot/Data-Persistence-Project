@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,17 +9,17 @@ public class UIMenuHandler : MonoBehaviour
 {
     [Header("UI - Components")]
     [SerializeField] private TextMeshProUGUI inputPlayerName;
-    [SerializeField] private TextMeshProUGUI textTop1;
-    [SerializeField] private TextMeshProUGUI textTop2;
-    [SerializeField] private TextMeshProUGUI textTop3;
-    [SerializeField] private TextMeshProUGUI textTop4;
-    [SerializeField] private TextMeshProUGUI textTop5;
-    [SerializeField] private TextMeshProUGUI textTop6;
-    [SerializeField] private TextMeshProUGUI textTop7;
-    [SerializeField] private TextMeshProUGUI textTop8;
-    
+    [SerializeField] private List<TextMeshProUGUI> textHighscores;
+
+    private void Start()
+    {
+        GameManager.Instance.LoadHighscores();
+        UpdateHighscores();
+    }
+
     public void OnPlayClicked()
     {
+        GameManager.Instance.Player.Name = inputPlayerName.text;
         GameManager.Instance.StartGame();
     }
 
@@ -28,5 +30,10 @@ public class UIMenuHandler : MonoBehaviour
 
     public void UpdateHighscores()
     {
+        var highscores = GameManager.Instance.Highscores;
+        for (int i = 0; i < highscores.Length; i++)
+        {
+            textHighscores[i].text = (highscores[i].Name == "" ? "NoName" : highscores[i].Name) + " >> " + highscores[i].Score;
+        }
     }
 }
