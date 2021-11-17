@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -15,14 +13,14 @@ public class GameManager : MonoBehaviour
     [Serializable]
     public struct Highscore
     {
-        public string Name;
-        public int Score;
+        public string name;
+        public int score;
     }
 
     [Serializable]
     public class SaveData
     {
-        public Highscore[] Highscores;
+        public Highscore[] highscores;
     }
 
     #endregion
@@ -45,23 +43,23 @@ public class GameManager : MonoBehaviour
 
     #endregion
     
-    [HideInInspector] public Highscore[] Highscores = new Highscore[8];
-    [HideInInspector] public Highscore Player = new Highscore();
+    [HideInInspector] public Highscore[] highscores = new Highscore[8];
+    [HideInInspector] public Highscore player;
 
     private const int SCENE_MENU_ID = 0;
     private const int SCENE_GAME_ID = 1;
     
-    public void OpenMenu()
+    public static void OpenMenu()
     {
         SceneManager.LoadScene(SCENE_MENU_ID);
     }
 
-    public void StartGame()
+    public static void StartGame()
     {
         SceneManager.LoadScene(SCENE_GAME_ID);
     }
 
-    public void QuitGame()
+    public static void QuitGame()
     {
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
@@ -74,21 +72,20 @@ public class GameManager : MonoBehaviour
     {
         var isNewHighscore = false;
         
-        for (var i = 0; i < Highscores.Length; i++)
+        for (var i = 0; i < highscores.Length; i++)
         {
-            if (Player.Score > Highscores[i].Score)
+            if (player.score <= highscores[i].score) continue;
+            
+            for (var j = highscores.Length - 2; j >= i; j--)
             {
-                for (var j = Highscores.Length - 2; j >= i; j--)
-                {
-                    Highscores[j+1].Name = Highscores[j].Name;
-                    Highscores[j+1].Score = Highscores[j].Score;
-                }
-                
-                Highscores[i].Name = Player.Name;
-                Highscores[i].Score = Player.Score;
-                isNewHighscore = true;
-                break;
+                highscores[j+1].name = highscores[j].name;
+                highscores[j+1].score = highscores[j].score;
             }
+                
+            highscores[i].name = player.name;
+            highscores[i].score = player.score;
+            isNewHighscore = true;
+            break;
         }
 
         return isNewHighscore;
@@ -97,14 +94,14 @@ public class GameManager : MonoBehaviour
     public void LoadHighscores()
     {
         var filepath = Application.persistentDataPath + "/highscores.json";
+        
         if (!File.Exists(filepath)) return;
         
-        var json = File.ReadAllText(filepath);
-        var save = JsonUtility.FromJson<SaveData>(json);
+        var save = JsonUtility.FromJson<SaveData>(File.ReadAllText(filepath));
         
         if (save != null)
         {
-            Highscores = save.Highscores;
+            highscores = save.highscores;
         }
     }
 
@@ -112,10 +109,9 @@ public class GameManager : MonoBehaviour
     {
         var save = new SaveData()
         {
-            Highscores = this.Highscores
+            highscores = this.highscores
         };
 
-        var json = JsonUtility.ToJson(save);
-        File.WriteAllText(Application.persistentDataPath + "/highscores.json", json);
+        File.WriteAllText(Application.persistentDataPath + "/highscores.json", JsonUtility.ToJson(save));
     }
 }

@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class UIMenuHandler : MonoBehaviour
@@ -19,26 +16,27 @@ public class UIMenuHandler : MonoBehaviour
 
     public void OnPlayClicked()
     {
-        if (inputPlayerName.text.Trim().Length == 1) // One char for new line.
+        // empty strings not allowed. Lenght is 1 because of end sequence '\n'.
+        if (inputPlayerName.text.Trim().Length == 1)
         {
             return;
         }
         
-        GameManager.Instance.Player.Name = inputPlayerName.text.Trim();
-        GameManager.Instance.StartGame();
+        GameManager.Instance.player.name = inputPlayerName.text.Trim();
+        GameManager.StartGame();
     }
 
     public void OnExitClicked()
     {
-        GameManager.Instance.QuitGame();
+        GameManager.QuitGame();
     }
 
-    public void UpdateHighscores()
+    private void UpdateHighscores()
     {
-        var highscores = GameManager.Instance.Highscores;
-        for (int i = 0; i < highscores.Length; i++)
+        var highscores = GameManager.Instance.highscores;
+        for (var i = 0; i < highscores.Length; i++)
         {
-            textHighscores[i].text = (highscores[i].Name == "" ? "NoName" : highscores[i].Name) + " >> " + highscores[i].Score;
+            textHighscores[i].text = (highscores[i].name == "" ? "NoName" : highscores[i].name) + " >> " + highscores[i].score;
         }
     }
 }
