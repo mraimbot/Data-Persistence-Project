@@ -57,7 +57,17 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+#if UNITY_EDITOR
+                if (GameManager.Instance == null) return;
+#endif
+                GameManager.Instance.StartGame();
+            }
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+#if UNITY_EDITOR
+                if (GameManager.Instance == null) return;
+#endif
+                GameManager.Instance.OpenMenu();
             }
         }
     }
