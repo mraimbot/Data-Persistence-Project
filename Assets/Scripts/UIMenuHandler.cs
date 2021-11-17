@@ -19,7 +19,12 @@ public class UIMenuHandler : MonoBehaviour
 
     public void OnPlayClicked()
     {
-        GameManager.Instance.Player.Name = inputPlayerName.text;
+        if (inputPlayerName.text.Trim().Length == 1) // One char for new line.
+        {
+            return;
+        }
+        
+        GameManager.Instance.Player.Name = inputPlayerName.text.Trim();
         GameManager.Instance.StartGame();
     }
 
