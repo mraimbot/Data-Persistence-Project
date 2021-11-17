@@ -90,7 +90,6 @@ public class MainManager : MonoBehaviour
 
     private void SetBestScore()
     {
-        Debug.Log(GameManager.Instance.highscores.Length);
         var highscore = GameManager.Instance.highscores[0];
         textBestScore.text = "Best Highscore: " + highscore.name + " with " + highscore.score + " points.";
     }
